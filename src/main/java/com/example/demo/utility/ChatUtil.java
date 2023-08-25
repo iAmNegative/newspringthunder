@@ -158,7 +158,8 @@ public class ChatUtil {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		
-		String resp = restTemplate.exchange("https://strapi-deployment-hzpa.onrender.com/api/messages?populate=*",
+		String apiaddress = "https://strapi-deployment-hzpa.onrender.com/api/messages?populate=*";
+		String resp = restTemplate.exchange(apiaddress,
 				HttpMethod.GET,entity,String.class).getBody();
 		
 		if(resp!=null && !resp.isEmpty()) {
