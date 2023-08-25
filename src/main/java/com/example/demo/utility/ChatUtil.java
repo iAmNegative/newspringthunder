@@ -55,7 +55,7 @@ public class ChatUtil {
 		headers.set("Authorization","Bearer " +jwt);
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		
-		String resp = restTemplate.exchange("http://localhost:1337/api/messages?populate=*",
+		String resp = restTemplate.exchange("https://strapi-deployment-hzpa.onrender.com/api/messages?populate=*",
 				HttpMethod.GET,entity,String.class).getBody();
 		
 		if(resp!=null && !resp.isEmpty()) {
