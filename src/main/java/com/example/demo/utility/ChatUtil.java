@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Comparator;
 
 
-import org.json.JSONObject; 
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.http.HttpEntity;
 
@@ -31,6 +33,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ChatUtil {
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+
 	
 	public String registerUser(User userVo){
 		
@@ -90,7 +94,8 @@ public class ChatUtil {
                 
                 
                 
-                
+        		logger.info(userMessage);
+
                 User senderUser = mapUserFromJson(objectMapper, messageNode.path("attributes").path("senderUser").path("data"));
                 User receiverUser = mapUserFromJson(objectMapper, messageNode.path("attributes").path("receiverUser").path("data"));
 
@@ -115,8 +120,18 @@ public class ChatUtil {
         	
         	 long userId = userNode.get("id").asLong();
              String userName = userNode.path("attributes").get("username").asText();
-             String firstName = userNode.path("attributes").get("firstName").asText();
-             String lastName = userNode.path("attributes").get("lastName").asText();
+             String firstName = null;
+             String lastName  = null;
+             if(userNode.path("attributes").get("firstName")!=null) {
+            	 
+                 firstName = userNode.path("attributes").get("firstName").asText();
+ 
+             }
+             if(userNode.path("attributes").get("lastName")!=null) {
+            	 
+                 lastName = userNode.path("attributes").get("lastName").asText();
+ 
+             }
              String email = userNode.path("attributes").get("email").asText();
              
              user.setUserId(userId);
@@ -158,8 +173,8 @@ public class ChatUtil {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		
-		String apiaddress = "https://strapi-deployment-hzpa.onrender.com/api/messages?populate=*";
-		String resp = restTemplate.exchange(apiaddress,
+		String apiaddress = "https://strapi-deployment-hzpa.onrender.com/api/messages?populate=";
+		String resp = restTemplate.exchange(apiaddress+"*",
 				HttpMethod.GET,entity,String.class).getBody();
 		
 		if(resp!=null && !resp.isEmpty()) {
