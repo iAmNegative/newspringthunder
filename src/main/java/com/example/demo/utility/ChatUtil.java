@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Comparator;
 
 
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 
 import java.util.List;
@@ -25,6 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.demo.entity.FormatInfo;
 import com.example.demo.entity.Message;
 import com.example.demo.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -137,7 +140,7 @@ public class ChatUtil {
              user.setUserId(userId);
              user.setFirstName(firstName);
              user.setLastName(lastName);
-             user.setUserName(userName);
+             user.setUsername(userName);
              user.setEmail(email);
         }
        
@@ -186,5 +189,123 @@ public class ChatUtil {
 		
 	}
     
+    public User getUserDetails(User user) throws IOException{
+		
+		
+  		List<User> userList = new ArrayList<>();
+  		RestTemplate restTemplate = new RestTemplate();
+  		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization","Bearer " +user.getJwt());
+  		headers.setContentType(MediaType.APPLICATION_JSON);
+  		HttpEntity<String> entity = new HttpEntity<>(headers);
+  		
+  		String apiaddress = "https://strapi-deployment-hzpa.onrender.com/api/user?populate=";
+//  		String apiaddress = "http://localhost:1337/api/users/?populate=";
+
+  		 userList = restTemplate.exchange(apiaddress+"*",
+  				HttpMethod.GET,entity,new ParameterizedTypeReference<List<User>>(){}).getBody();
+  		
+  		if(userList!=null && !userList.isEmpty()) {
+  			
+  			for(User usr : userList) {
+  				
+  				 if (usr.getUsername().equals(user.getUsername())) {
+  					 
+  					user = usr;
+  					
+  					
+  					if(usr.getUserProfile()!=null && !usr.getUserProfile().isEmpty()) {
+						
+						if(usr.getUserProfile().get(0).getFormats().get("large").getUrl()!=null) {
+							
+							user.setUserProfileLargeUrl(usr.getUserProfile().get(0).getFormats().get("large").getUrl());
+//						  break; // Exit loop if the user is found
+						}
+						if(usr.getUserProfile().get(0).getFormats().get("small").getUrl()!=null) {
+							
+							user.setUserProfileSmallUrl(usr.getUserProfile().get(0).getFormats().get("small").getUrl());
+//						  break; // Exit loop if the user is found
+						}
+						if(usr.getUserProfile().get(0).getFormats().get("medium").getUrl()!=null) {
+							
+							user.setUserProfileMediumUrl(usr.getUserProfile().get(0).getFormats().get("medium").getUrl());
+//						  break; // Exit loop if the user is found
+						}
+						if(usr.getUserProfile().get(0).getFormats().get("thumbnail").getUrl()!=null) {
+							
+							user.setUserProfileThumbnailUrl(usr.getUserProfile().get(0).getFormats().get("thumbnail").getUrl());
+//						  break; // Exit loop if the user is found
+						}
+						
+					} 
+  					
+  	                break; // Exit loop if the user is found
+  	            }
+  								
+  			}
+  		}	
+  		return user;		
+  		
+  	}
+
+
+
+
+
+	public User getUserDetailsImage(User user) {
+  		List<User> userList = new ArrayList<>();
+  		RestTemplate restTemplate = new RestTemplate();
+  		HttpHeaders headers = new HttpHeaders();
+  		headers.setContentType(MediaType.APPLICATION_JSON);
+  		HttpEntity<String> entity = new HttpEntity<>(headers);
+  		
+//  		String apiaddress = "https://strapi-deployment-hzpa.onrender.com/api/user?populate=";
+  		String apiaddress = "http://localhost:1337/api/users/?populate=";
+
+  		 userList = restTemplate.exchange(apiaddress+"*",
+  				HttpMethod.GET,entity,new ParameterizedTypeReference<List<User>>(){}).getBody();
+  		
+  		if(userList!=null && !userList.isEmpty()) {
+  			
+  			for(User usr : userList) {
+  				
+  				if(usr.getUsername()!=null && !usr.getUsername().isEmpty()) {
+  					
+  					if (usr.getUsername().equals(user.getUsername())) {
+  	  					 
+  						if(usr.getUserProfile()!=null && !usr.getUserProfile().isEmpty()) {
+  							
+  							if(usr.getUserProfile().get(0).getFormats().get("large").getUrl()!=null) {
+  								
+  								user.setUserProfileLargeUrl(usr.getUserProfile().get(0).getFormats().get("large").getUrl());
+//  							  break; // Exit loop if the user is found
+  							}
+  							if(usr.getUserProfile().get(0).getFormats().get("small").getUrl()!=null) {
+  								
+  								user.setUserProfileSmallUrl(usr.getUserProfile().get(0).getFormats().get("small").getUrl());
+//  							  break; // Exit loop if the user is found
+  							}
+  							if(usr.getUserProfile().get(0).getFormats().get("medium").getUrl()!=null) {
+  								
+  								user.setUserProfileMediumUrl(usr.getUserProfile().get(0).getFormats().get("medium").getUrl());
+//  							  break; // Exit loop if the user is found
+  							}
+  							if(usr.getUserProfile().get(0).getFormats().get("thumbnail").getUrl()!=null) {
+  								
+  								user.setUserProfileThumbnailUrl(usr.getUserProfile().get(0).getFormats().get("thumbnail").getUrl());
+//  							  break; // Exit loop if the user is found
+  							}
+  							
+  						}
+  	  	              
+  	  	            }
+  					
+  				}
+  				 
+  								
+  			}
+  		}	
+  		return user;
+	}
     
 }
