@@ -218,22 +218,22 @@ public class ChatUtil {
 						
   						if(usr.getUserProfile().get(0).getFormats()!=null && !usr.getUserProfile().get(0).getFormats().isEmpty()) {
   							
-  							if(usr.getUserProfile().get(0).getFormats().get("large").getUrl()!=null) {
+  							if(usr.getUserProfile().get(0).getFormats().get("large") !=null) {
   								
   								user.setUserProfileLargeUrl(usr.getUserProfile().get(0).getFormats().get("large").getUrl());
 //  							  break; // Exit loop if the user is found
   							}
-  							if(usr.getUserProfile().get(0).getFormats().get("small").getUrl()!=null) {
+  							if(usr.getUserProfile().get(0).getFormats().get("small") !=null) {
   								
   								user.setUserProfileSmallUrl(usr.getUserProfile().get(0).getFormats().get("small").getUrl());
 //  							  break; // Exit loop if the user is found
   							}
-  							if(usr.getUserProfile().get(0).getFormats().get("medium").getUrl()!=null) {
+  							if(usr.getUserProfile().get(0).getFormats().get("medium") !=null) {
   								
   								user.setUserProfileMediumUrl(usr.getUserProfile().get(0).getFormats().get("medium").getUrl());
 //  							  break; // Exit loop if the user is found
   							}
-  							if(usr.getUserProfile().get(0).getFormats().get("thumbnail").getUrl()!=null) {
+  							if(usr.getUserProfile().get(0).getFormats().get("thumbnail") !=null) {
   								
   								user.setUserProfileThumbnailUrl(usr.getUserProfile().get(0).getFormats().get("thumbnail").getUrl());
 //  							  break; // Exit loop if the user is found
