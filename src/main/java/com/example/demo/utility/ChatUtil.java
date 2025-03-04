@@ -199,7 +199,7 @@ public class ChatUtil {
   		headers.setContentType(MediaType.APPLICATION_JSON);
   		HttpEntity<String> entity = new HttpEntity<>(headers);
   		
-  		String apiaddress = "https://strapi-deployment-hzpa.onrender.com/api/users/?populate=";
+  		String apiaddress = "https://two025-strapi.onrender.com/api/users/?populate=";
 //  		String apiaddress = "http://localhost:1337/api/users/?populate=";
 
   		 userList = restTemplate.exchange(apiaddress+"*",
@@ -266,7 +266,7 @@ public class ChatUtil {
   		headers.setContentType(MediaType.APPLICATION_JSON);
   		HttpEntity<String> entity = new HttpEntity<>(headers);
   		
-  		String apiaddress = "https://strapi-deployment-hzpa.onrender.com/api/user?populate=";
+  		String apiaddress = "https://two025-strapi.onrender.com/api/user?populate=";
 //  		String apiaddress = "http://localhost:1337/api/users/?populate=";
 
   		 userList = restTemplate.exchange(apiaddress+"*",
