@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.Comparator;
 
 
@@ -250,7 +252,20 @@ public class ChatUtil {
   	            }
   								
   			}
-  		}	
+  		}
+  		
+  		
+  		Map<String, List<String>> employee = userList.stream()
+  			    .collect(Collectors.groupingBy(
+  			    		User::getEmail, 
+  			        Collectors.mapping(User::getFirstName,Collectors.toList())
+  			    ));
+  		
+  		employee.forEach((name,list)-> System.out.println(name+" "+list.toString()));
+  		
+  		
+  		
+
   		return user;		
   		
   	}
